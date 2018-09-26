@@ -1,5 +1,3 @@
-require './config/environment'
-
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -21,6 +19,7 @@ class ApplicationController < Sinatra::Base
     if !params[:username].empty? && !params[:email].empty? && !params[:password].empty?
       @user.save
       session[:user_id] = @user.id
+      redirect "/birthdays"
     end
   end
   
@@ -31,14 +30,13 @@ class ApplicationController < Sinatra::Base
   post '/login' do
     @user = User.find_by(:username => params[:username])
     session[:user_id] = @user.id
+    redirect "/birthdays"
   end
   
   get '/birthdays' do
-    if logged_in?
-      @user == current_user
-      @birthdays == @user.birthdays
-      erb :'birthdays/index'
-    end
+    @user = current_user
+    @birthdays = @user.birthdays
+    erb :'birthdays/index'
   end
   
   helpers do
