@@ -16,12 +16,10 @@ class ApplicationController < Sinatra::Base
   
   post '/signup' do
     @user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
-    binding.pry
     # if !params[:username].empty? && !params[:email].empty? && !params[:password].empty?
       @user.save
-      #binding.pry
       session[:user_id] = @user.id
-      erb :'birthdays/index'
+      redirect "/birthdays"
     # end
   end
   
@@ -40,6 +38,7 @@ class ApplicationController < Sinatra::Base
     @user = current_user
     @birthdays = @user.birthdays
     erb :'birthdays/index'
+    binding.pry
   end
   
   get '/birthdays/new' do
