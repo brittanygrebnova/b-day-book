@@ -4,6 +4,8 @@ class ApplicationController < Sinatra::Base
     set :public_folder, 'public'
     set :views, 'app/views'
     enable :sessions
+    set :session_secret, "secret"
+    
   end
   
   get '/' do
@@ -19,6 +21,7 @@ class ApplicationController < Sinatra::Base
     # if !params[:username].empty? && !params[:email].empty? && !params[:password].empty?
       @user.save
       session[:user_id] = @user.id
+      #binding.pry
       redirect "/birthdays"
     # end
   end
@@ -35,10 +38,11 @@ class ApplicationController < Sinatra::Base
   end
   
   get '/birthdays' do
+    #binding.pry
     @user = current_user
     @birthdays = @user.birthdays
     erb :'birthdays/index'
-    binding.pry
+    #binding.pry
   end
   
   get '/birthdays/new' do
