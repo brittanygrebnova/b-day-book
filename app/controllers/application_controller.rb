@@ -4,8 +4,7 @@ class ApplicationController < Sinatra::Base
     set :public_folder, 'public'
     set :views, 'app/views'
     enable :sessions
-    set :session_secret, "secret"
-    
+    set :session_secret, "secret_birthday_wish"
   end
   
   get '/' do
@@ -33,8 +32,7 @@ class ApplicationController < Sinatra::Base
   post '/login' do
     @user = User.find_by(:username => params[:username])
     session[:user_id] = @user.id
-    # redirect "/birthdays"
-    erb :'birthdays/index'
+    redirect "/birthdays"
   end
   
   get '/birthdays' do
