@@ -1,6 +1,6 @@
 <h1>Hey, <%=@user.username%>!</h1>
 
-<h3>This Week's Upcoming Birthdays:</h3>
+<h3>Your Birthday Reminders:</h3>
 
 <%if @user.birthdays.empty?%>
 <%='You have no birthdays this week.'%>
@@ -9,6 +9,10 @@
 <%=birthday.date%>: <%=birthday.name%><br>
 <%end%>
 <%end%>
+<br>
+
+<a class="button" href="birthdays/">See All Your Birthdays</a>
+<a class="button" href="birthdays/new">Add a New Birthday</a>
 
 
 

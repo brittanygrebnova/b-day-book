@@ -17,12 +17,13 @@ class ApplicationController < Sinatra::Base
   
   post '/signup' do
     @user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
-    # if !params[:username].empty? && !params[:email].empty? && !params[:password].empty?
+    if !params[:username].empty? && !params[:email].empty? && !params[:password].empty?
       @user.save
       session[:user_id] = @user.id
-      #binding.pry
       redirect "/birthdays"
-    # end
+    else
+      redirect "/signup"
+    end
   end
   
   get '/login' do
@@ -56,7 +57,15 @@ class ApplicationController < Sinatra::Base
   
   get '/birthdays/:id' do
     @birthday = Birthday.find(params[:id])
-    erb :'birthdays/show'
+    if @birthday.user_id == session[:user_id]
+      erb :'birthdays/show'
+    else
+      redirect "/"
+    end
+  end
+  
+  get '/birthdays/:id/edit' do
+    erb :'birthdays/edit'
   end
   
   patch '/birthdays/:id' do
@@ -72,11 +81,8 @@ class ApplicationController < Sinatra::Base
     if @birthday.user_id == session[:user_id]
       #binding.pry
       @birthday.destroy
+      redirect "/birthdays"
     end
-  end
-  
-  get '/birthdays/:id/edit' do
-    erb :'birthdays/edit'
   end
   
   helpers do
