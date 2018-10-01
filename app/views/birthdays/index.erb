@@ -3,4 +3,11 @@
 <h3>This Week's Upcoming Birthdays:</h3>
 
 <%if @user.birthdays.empty?%>
+<%='You have no birthdays this week.'%>
+<%else%>
+<%@user.birthdays.each do |birthday|%>
+<%=birthday.date%>: <%=birthday.name%><br>
+<%end%>
+
+
 
