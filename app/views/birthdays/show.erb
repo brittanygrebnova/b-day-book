@@ -1,0 +1,13 @@
+<%=@birthday.content%>
+
+<form method='post' action='/birthdays/<%= @birthday.id %>/delete'>
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type='submit' value='delete' id='Delete Birthday'></input>
+</form>
+
+<form method='post' action='/birthdays/<%= @birthday.id %>'>
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <input type='text' name="birthday[name]" placeholder="<%= @birthday.name %>"></input>
+  <input type='text' name="birthday[date]" placeholder="<%= @birthday.date %>"></input>
+  <input type='text' value='submit' id='Edit Birthday'></input>
+</form>
