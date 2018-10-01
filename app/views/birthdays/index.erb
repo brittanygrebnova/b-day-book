@@ -1,4 +1,4 @@
-<h1>Hey, <%=@user.username%>!</h1>
+<h2>Hey, <%=@user.username%>!</h2>
 
 <h3>Your Birthday Reminders:</h3>
 
@@ -6,12 +6,11 @@
 <%='You have no birthdays this week.'%>
 <%else%>
 <%@user.birthdays.each do |birthday|%>
-<%=birthday.date%>: <%=birthday.name%><br>
+<%=birthday.date%>: <a href='/birthdays/<%=birthday.id%>'><%=birthday.name%></a><br>
 <%end%>
 <%end%>
 <br>
 
-<a class="button" href="birthdays/">See All Your Birthdays</a>
 <a class="button" href="birthdays/new">Add a New Birthday</a>
 
 
