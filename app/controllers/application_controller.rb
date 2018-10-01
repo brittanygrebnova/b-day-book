@@ -75,6 +75,10 @@ class ApplicationController < Sinatra::Base
     end
   end
   
+  get '/birthdays/:id/edit' do
+    erb :'birthdays/edit'
+  end
+  
   helpers do
     def logged_in?
       !!session[:user_id]
