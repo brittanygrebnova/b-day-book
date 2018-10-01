@@ -53,6 +53,28 @@ class ApplicationController < Sinatra::Base
     @birthday = Birthday.create(:name => params[:name], :date => params[:birthdate])
     @birthday.user_id = current_user.id
     @birthday.save
+    redirect "birthdays/#{@birthday.id}"
+  end
+  
+  get '/birthdays/:id' do
+    @birthday = Birthday.find(params[:id])
+    erb :'birthdays/show'
+  end
+  
+  patch '/birthdays/:id' do
+    @birthday = Birthday.find(params[:id])
+    if @birthday.user_id == session[:user_id]
+      @birthday.update(:name => params[:name], :date => params[:date])   
+      @birthday.save
+    end
+  end
+  
+  delete '/birthdays/:id/delete' do
+    @birthday = Birthday.find(params[:id])
+    if @birthday.user_id == session[:user_id]
+      #binding.pry
+      @birthday.destroy
+    end
   end
   
   helpers do
