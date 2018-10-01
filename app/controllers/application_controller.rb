@@ -51,10 +51,9 @@ class ApplicationController < Sinatra::Base
   end
   
   post '/birthdays' do
-    @birthday = Birthday.create(:name => params[:name], :date => params[:birthdate])
+    @birthday = Birthday.create(:name => params[:name], :date => params[:date])
     @birthday.user_id = current_user.id
     @birthday.save
-    binding.pry
     redirect "birthdays/#{@birthday.id}"
   end
   
@@ -74,11 +73,19 @@ class ApplicationController < Sinatra::Base
   
   patch '/birthdays/:id' do
     @birthday = Birthday.find(params[:id])
-    if @birthday.user_id == session[:user_id]
-      @birthday.update(:name => params[:name], :date => params[:date])  
+    if @birthday.user_id == session[:user_id] && !params[:name].empty? && !params[:date].empty?
+      @birthday.update(:name => params[:name], :date => params[:date]) 
       @birthday.save
-      redirect "/birthdays/#{@birthday.id}"
+    elsif @birthday.user_id == session[:user_id] && params[:name].empty? && !params[:date].empty?
+      @birthday.update(:date => params[:date]) 
+      @birthday.save
+    elsif @birthday.user_id == session[:user_id] && !params[:name].empty? && params[:date].empty?
+      @birthday.update(:name => params[:name])
+      @birthday.save
+    else
+      erb :'birthdays/edit'
     end
+    redirect "/birthdays/#{@birthday.id}"
   end
   
   delete '/birthdays/:id/delete' do
