@@ -5,6 +5,7 @@ class ApplicationController < Sinatra::Base
     set :views, 'app/views'
     enable :sessions
     set :session_secret, "secret_birthday_wish"
+    use Rack::Flash
   end
   
   get '/' do
@@ -54,6 +55,7 @@ class ApplicationController < Sinatra::Base
     @birthday = Birthday.create(:name => params[:name], :date => params[:date])
     @birthday.user_id = current_user.id
     @birthday.save
+    flash[:message] = "Successfully created birthday reminder."
     redirect "birthdays/#{@birthday.id}"
   end
   
