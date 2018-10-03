@@ -6,6 +6,7 @@
 <%='You have no birthdays this week.'%>
 <%else%>
 <%@user.birthdays.each do |birthday|%>
+<%binding.pry%>
 <%=birthday.date.strftime("%B %d")%>: <a href='/birthdays/<%=birthday.id%>'><%=birthday.name%></a><br>
 <%end%>
 <%end%>
