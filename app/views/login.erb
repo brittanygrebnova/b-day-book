@@ -1,4 +1,7 @@
-<!–– login page ––>
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
 <h3>Please Log In</h3>
 
 <form method="POST" action="/login">

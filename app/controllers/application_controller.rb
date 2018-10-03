@@ -33,12 +33,13 @@ require 'rack-flash'
   end
   
   post '/login' do
-    if User.find_by(:username => params[:username])
-      @user = User.find_by(:username => params[:username])
+    @user = User.find_by(:username => params[:username])
+    if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
       redirect "/birthdays"
     else
-      erb :login
+      flash[:message] = "Invalid login credentials."
+      redirect "/login"
     end
   end
   
@@ -88,6 +89,7 @@ require 'rack-flash'
     else
       erb :'birthdays/edit'
     end
+    binding.pry
     redirect "/birthdays/#{@birthday.id}"
   end
   
