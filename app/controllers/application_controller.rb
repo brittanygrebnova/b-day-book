@@ -46,6 +46,7 @@ require 'rack-flash'
   get '/birthdays' do
     @user = current_user
     @birthdays = @user.birthdays
+    #binding.pry
     erb :'birthdays/index'
   end
   
