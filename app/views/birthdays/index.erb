@@ -3,7 +3,7 @@
 <h3>Your Birthday Reminders:</h3>
 
 <%if @user.birthdays.empty?%>
-<%='You have no birthdays this week.'%>
+<%='You have no birthday reminders saved.'%>
 <%else%>
 <%@user.birthdays.each do |birthday|%>
 <%binding.pry%>
