@@ -107,6 +107,13 @@ require 'rack-flash'
     end
   end
   
+  def logout
+    session.clear
+    if session.empty?
+      erb :logout
+    end
+  end
+  
   helpers do
     def logged_in?
       !!session[:user_id]
