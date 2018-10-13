@@ -107,7 +107,7 @@ require 'rack-flash'
     end
   end
   
-  def logout
+  get '/logout' do
     session.clear
     if session.empty?
       erb :logout
