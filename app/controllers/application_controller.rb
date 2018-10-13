@@ -91,15 +91,8 @@ require 'rack-flash'
   
   patch '/birthdays/:id' do
     @birthday = Birthday.find(params[:id])
-    if @birthday.user_id == session[:user_id] && !params[:name].empty? && !params[:date].empty?
-      @birthday.update(:name => params[:name], :date => params[:date]) 
-      @birthday.save
-    elsif @birthday.user_id == session[:user_id] && params[:name].empty? && !params[:date].empty?
-      @birthday.update(:date => params[:date]) 
-      @birthday.save
-    elsif @birthday.user_id == session[:user_id] && !params[:name].empty? && params[:date].empty?
-      @birthday.update(:name => params[:name])
-      @birthday.save
+    if @birthday.user_id == session[:user_id] 
+      @birthday.update(:name => params[:name], :date => params[:date])
     else
       erb :'birthdays/edit'
     end

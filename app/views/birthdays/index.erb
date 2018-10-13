@@ -6,7 +6,6 @@
 <%='You have no birthday reminders saved.'%>
 <%else%>
 <%@user.birthdays.each do |birthday|%>
-<%binding.pry%>
 <%=birthday.date.strftime("%B %d")%>: <a href='/birthdays/<%=birthday.id%>'><%=birthday.name%></a><br>
 <%end%>
 <%end%>
