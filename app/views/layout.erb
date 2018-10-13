@@ -9,6 +9,10 @@
       <h1>B-Day Book</h1>
       <h3>A personal collection of your important birthday reminders</h3>
       
+      <% if flash.has?(:message) %>
+        <%= flash[:message] %>
+      <% end %>
+      
       <%= yield %>
       
     </div>

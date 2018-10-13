@@ -1,7 +1,3 @@
-<% if flash.has?(:message) %>
-  <%= flash[:message] %>
-<% end %>
-
 <h2><%=@birthday.date.strftime("%B %d")%>: <%=@birthday.name%></h2>
 
 <a class="button" href="<%=@birthday.id%>/edit">Edit Birthday</a><br>
