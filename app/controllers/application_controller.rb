@@ -18,8 +18,11 @@ require 'rack-flash'
   end
   
   post '/signup' do
-    @user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
-    if !params[:username].empty? && !params[:email].empty? && !params[:password].empty?
+    if User.find_by(:username => params[:username])
+      flash[:message] = "Username is not available."
+      redirect "/signup"
+    elsif !params[:username].empty? && !params[:email].empty? && !params[:password].empty?
+      @user = User.new(:username => params[:username], :email => params[:email], :password => params[:password])
       @user.save
       session[:user_id] = @user.id
       redirect "/birthdays"
@@ -45,6 +48,7 @@ require 'rack-flash'
   end
   
   get '/birthdays' do
+    redirect_if_not_logged_in
     @user = current_user
     @birthdays = @user.birthdays
     #binding.pry
@@ -52,18 +56,25 @@ require 'rack-flash'
   end
   
   get '/birthdays/new' do
+    redirect_if_not_logged_in
     erb :'birthdays/new'
   end
   
   post '/birthdays' do
-    @birthday = Birthday.create(:name => params[:name], :date => params[:date])
-    @birthday.user_id = current_user.id
-    @birthday.save
-    flash[:message] = "Successfully created birthday reminder."
-    redirect "birthdays/#{@birthday.id}"
+    if params[:name].empty? || params[:date].empty?
+      flash[:message] = "Please fill in all required information."
+      redirect "/birthdays/new"
+    else
+      @birthday = Birthday.create(:name => params[:name], :date => params[:date])
+      @birthday.user_id = current_user.id
+      @birthday.save
+      flash[:message] = "Successfully created birthday reminder."
+      redirect "birthdays/#{@birthday.id}"
+    end
   end
   
   get '/birthdays/:id' do
+    redirect_if_not_logged_in
     @birthday = Birthday.find(params[:id])
     if @birthday.user_id == session[:user_id]
       erb :'birthdays/show'
@@ -73,6 +84,7 @@ require 'rack-flash'
   end
   
   get '/birthdays/:id/edit' do
+    redirect_if_not_logged_in
     @birthday = Birthday.find(params[:id])
     erb :'birthdays/edit'
   end
@@ -91,7 +103,6 @@ require 'rack-flash'
     else
       erb :'birthdays/edit'
     end
-    binding.pry
     redirect "/birthdays/#{@birthday.id}"
   end
   
@@ -111,6 +122,13 @@ require 'rack-flash'
     def current_user
       User.find(session[:user_id])
     end
+
+    def redirect_if_not_logged_in
+      if !logged_in?
+        redirect "/login"
+      end
+    end
+
   end
   
   
