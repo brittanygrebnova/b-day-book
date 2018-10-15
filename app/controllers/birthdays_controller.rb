@@ -60,11 +60,4 @@ class BirthdaysController < ApplicationController
     end
   end
   
-  get '/logout' do
-    session.clear
-    if session.empty?
-      erb :logout
-    end
-  end
-  
 end
