@@ -1,3 +1,5 @@
+require 'sinatra'
+
 class ApplicationController < Sinatra::Base
 require 'rack-flash'
 
@@ -8,11 +10,11 @@ require 'rack-flash'
     set :session_secret, "secret_birthday_wish"
     use Rack::Flash
   end
-  
+
   get '/' do
     erb :index
   end
-  
+
   helpers do
     def logged_in?
       !!session[:user_id]
@@ -29,6 +31,6 @@ require 'rack-flash'
     end
 
   end
-  
-  
+
+
 end
